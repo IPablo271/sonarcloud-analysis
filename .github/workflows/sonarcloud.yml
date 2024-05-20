@@ -1,10 +1,11 @@
 name: SonarCloud
+
 on:
-    push:
-      branches:
-        - main
-    pull_request:
-        types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   sonarcloud:
@@ -28,8 +29,7 @@ jobs:
 
       - name: Install SonarCloud Scanner
         run: |
-          curl -sL https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -o
-          build-wrapper-linux-x86.zip
+          curl -sL https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -o build-wrapper-linux-x86.zip
           unzip build-wrapper-linux-x86.zip -d ~/sonar-scanner
           export PATH="$PATH:~/sonar-scanner/build-wrapper-linux-x86"
 
@@ -37,8 +37,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner 
-          -Dsonar.organization=ipablo271 
-          -Dsonar.projectKey=IPablo271_sonarcloud-analysis 
-          -Dsonar.sources=. 
+          sonar-scanner \
+          -Dsonar.organization=ipablo271 \
+          -Dsonar.projectKey=IPablo271_sonarcloud-analysis \
+          -Dsonar.sources=. \
           -Dsonar.host.url=https://sonarcloud.io
