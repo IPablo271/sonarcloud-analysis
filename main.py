@@ -3,6 +3,7 @@ import sqlite3
 import hashlib
 import tempfile
 import threading
+import traceback
 
 
 def read_file(file_path):
@@ -48,7 +49,12 @@ def insecure_login(password):
         print("Login failed")
 
 
-
+def handle_error():
+    try:
+        pass
+    except Exception as e:
+        print("An error occurred:")
+        traceback.print_exc()  # Exposición de detalles internos del sistema
 
 def main():
     # Bug: variable no usada
