@@ -1,4 +1,5 @@
 import os
+import sqlite3
 
 # Ejemplo de contraseña hardcodeada (mala práctica)
 HARDCODED_PASSWORD = "password123"
@@ -34,10 +35,18 @@ def process_data(data):
     processed_data = data.lower()
     return processed_data
 
-def connect_to_database(password):
+def connect_to_database(db_path, password):
     # Simulación de conexión a una base de datos usando una contraseña hardcodeada
-    print(f"Connecting to the database with password: {password}")
-    # Aquí iría el código de conexión a la base de datos
+    if password != HARDCODED_PASSWORD:
+        print("Incorrect password.")
+        return None
+    try:
+        connection = sqlite3.connect(db_path)
+        print(f"Connected to the database at {db_path} with password: {password}")
+        return connection
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        return None
 
 def main():
     # Bug: variable no usada
@@ -45,6 +54,7 @@ def main():
     
     # Bug: posible ruta no válida en diferentes sistemas operativos
     file_path = "/tmp/example.txt"
+    db_path = "example.db"
     
     # Lectura de un archivo
     data = read_file(file_path)
@@ -66,8 +76,10 @@ def main():
     
     write_file(file_path, user_input)
 
-    # Uso de una contraseña hardcodeada
-    connect_to_database(HARDCODED_PASSWORD)
+    # Uso de una contraseña hardcodeada para conectar a la base de datos
+    connection = connect_to_database(db_path, HARDCODED_PASSWORD)
+    if connection:
+        connection.close()
 
 if __name__ == "__main__":
     main()
