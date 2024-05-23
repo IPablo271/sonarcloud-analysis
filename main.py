@@ -1,8 +1,11 @@
 import os
 
+# Ejemplo de contraseña hardcodeada (mala práctica)
+HARDCODED_PASSWORD = "password123"
+
 def read_file(file_path):
     try:
-        # Vulnerabilidad: no manejo de paths absolutos
+        # Vulnerabilidad: No manejo de paths absolutos
         with open(file_path, 'r') as file:
             data = file.read()
         return data
@@ -26,8 +29,15 @@ def get_user_input():
 
 def process_data(data):
     # Error: Posible fallo si data es None
+    if data is None:
+        return None
     processed_data = data.lower()
     return processed_data
+
+def connect_to_database(password):
+    # Simulación de conexión a una base de datos usando una contraseña hardcodeada
+    print(f"Connecting to the database with password: {password}")
+    # Aquí iría el código de conexión a la base de datos
 
 def main():
     # Bug: variable no usada
@@ -43,6 +53,9 @@ def main():
     
     # Procesamiento de datos
     processed_data = process_data(data)
+    if processed_data is None:
+        print("No data to process.")
+        return
     print(f"Processed Data: {processed_data}")
     
     # Obtener entrada del usuario y escribir en un archivo
@@ -52,6 +65,9 @@ def main():
     os.system(f"echo {user_input}")
     
     write_file(file_path, user_input)
+
+    # Uso de una contraseña hardcodeada
+    connect_to_database(HARDCODED_PASSWORD)
 
 if __name__ == "__main__":
     main()
